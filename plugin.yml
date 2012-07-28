@@ -1,0 +1,13 @@
+name: PlayerLogger
+
+version: 2.3
+
+description: Logs player events.
+
+authors: [McLuke300, javoris767]
+
+main: me.javoris767.playerlogger.playerlogger
+
+commands:
+   Playerlogger:
+      description: Playerlogger commands
