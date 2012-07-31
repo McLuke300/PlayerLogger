@@ -57,8 +57,12 @@ public class PlayerLoggerListener implements Listener{
 				} else {
 					lowercase = false;
 				}
+				if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 				filehandler.logLogin(playername, worldname, x, y, z, ip, staff, lowercase);
-			}}}
+			}
+				if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+					playerlogger.addData(playername,"join", ip, x, y, z, worldname);
+				}}}}
 
 	//Player Quit
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -83,9 +87,14 @@ public class PlayerLoggerListener implements Listener{
 			} else {
 				lowercase = false;
 			}
+			if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 			filehandler.logQuit(playername, worldname, x, y, z, staff, lowercase);
-		}}
+		}
+			if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+				playerlogger.addData(playername,"quit", "", x, y, z, worldname);	
+		}}}
 
+	
 	//Player Chat
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerChat(PlayerChatEvent event) {
@@ -110,10 +119,15 @@ public class PlayerLoggerListener implements Listener{
 			} else {
 				lowercase = false;
 			}
+			if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 			filehandler.logChat(playername, msg, worldname, x, y, z, staff, lowercase);
-		}}
+		}
+			if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+				playerlogger.addData(playername,"chat", msg, x, y, z, worldname);
+			}}}
 
 
+	
 	//Player Command
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerCmd(PlayerCommandPreprocessEvent event) {
@@ -148,8 +162,12 @@ public class PlayerLoggerListener implements Listener{
 						} else {
 							lowercase = false;
 						}
+						if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 						filehandler.logCmd(playername, msg, worldname, x, y, z, staff, lowercase);
 					}
+						if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+							playerlogger.addData(playername,"command", msg, x, y, z, worldname);
+						}}
 			}else {
 				if (player.hasPermission("PlayerLogger.staff") && plugin.getConfig().getBoolean("Log.SeparateFolderforStaff")) {
 					staff = true;
@@ -161,10 +179,14 @@ public class PlayerLoggerListener implements Listener{
 				} else {
 					lowercase = false;
 				}
+				if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 				filehandler.logCmd(playername, msg, worldname, x, y, z, staff, lowercase);
-				return;
-			}}}
+			}
+				if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+					playerlogger.addData(playername,"command", msg, x, y, z, worldname);
+				}}}}
 
+	
 	//Player Deaths
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityDeath(EntityDeathEvent event){
@@ -191,9 +213,14 @@ public class PlayerLoggerListener implements Listener{
 				} else {
 					lowercase = false;
 				}
+				if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 				filehandler.logPlayerDeath(playername, reason, worldname, x, y, z, staff, lowercase);
-			}}}
+			}
+				if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+					playerlogger.addData(playername,"death", "", x, y, z, worldname);
+				}}}}
 
+	
 	//Player Enchant
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEnchant(EnchantItemEvent event){
@@ -217,9 +244,14 @@ public class PlayerLoggerListener implements Listener{
 			} else {
 				lowercase = false;
 			}
+			if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 			filehandler.logEnchant(playername, ench, item, cost, worldname, staff, lowercase);
-		}}
+		}
+			if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+				playerlogger.addData(playername,"enchant", item+" "+ench+" Xp Cost:"+cost, 0, 0, 0, worldname);
+			}}}
 
+	
 	//Player Bucket
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBucket(PlayerBucketEmptyEvent event){
@@ -250,7 +282,12 @@ public class PlayerLoggerListener implements Listener{
 					} else {
 						lowercase = false;
 					}
+					if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 					filehandler.logBucket(playername, worldname, x, y, z, lava, staff, lowercase);
+					}
+					if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+						playerlogger.addData(playername,"bucket", "Lava", x, y, z, worldname);
+					}
 				}else if (event.getBucket() != null && event.getBucket()==Material.WATER_BUCKET) {
 					lava = false;
 					x = event.getBlockClicked().getLocation().getBlockX();
@@ -266,10 +303,15 @@ public class PlayerLoggerListener implements Listener{
 					} else {
 						lowercase = false;
 					}
+					if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 					filehandler.logBucket(playername, worldname, x, y, z, lava, staff, lowercase);
-				}}}}
+				}
+					if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+						playerlogger.addData(playername,"bucket", "Water", x, y, z, worldname);
+					}}}}}
 
 
+	
 	//Player Sign Change event
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onSign(SignChangeEvent event){
@@ -295,8 +337,12 @@ public class PlayerLoggerListener implements Listener{
 				} else {
 					lowercase = false;
 				}
+				if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 				filehandler.logSign(playername, worldname, x, y, z, lines, staff, lowercase);
-			}}}
+			}
+				if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+					playerlogger.addData(playername,"sign", "["+lines[0]+"]"+"["+lines[1]+"]"+"["+lines[2]+"]"+"["+lines[3]+"]", x, y, z, worldname);
+				}}}}
 
 
 	//PlayerPvp
@@ -326,16 +372,23 @@ public class PlayerLoggerListener implements Listener{
 						} else {
 							lowercase = false;
 						}
+						if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 						filehandler.logKill(player, damager, x, y, z, worldname, staff, lowercase);
-					}}}}}
+					}
+						if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+							playerlogger.addData(damager,"kill", "Killed "+player, x, y, z, worldname);
+						}}}}}}
 
 
 	//Console Logger
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerConsoleCommand(ServerCommandEvent event) {
 		String msg = event.getCommand();
-		if (plugin.getConfig().getBoolean("Log.ConsoleCommands")) {
+		if (plugin.getConfig().getBoolean("Log.ConsoleCommands") && plugin.getConfig().getBoolean("File.LogToFiles")) {
 			filehandler.logConsole(msg);
+		}
+		if (plugin.getConfig().getBoolean("Log.ConsoleCommands") && plugin.getConfig().getBoolean("MySQL.Enabled")) {
+			playerlogger.addData("","console", msg, 0, 0, 0, "");
 		}}
 
 
@@ -374,7 +427,12 @@ public class PlayerLoggerListener implements Listener{
 					} else {
 						lowercase = false;
 					}
+					if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 					filehandler.logPlace(playername, worldname, blockname, x, y, z, staff, lowercase);
+					}
+					if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+						playerlogger.addData(playername,"place", blockname, x, y, z, worldname);
+					}
 				}}else if (plugin.getConfig().getStringList("BlackList.Blocks").toString().contains("*")) {
 					String blockname = event.getBlock().getType().toString();
 					blockname = blockname.replaceAll("_", " ");
@@ -388,8 +446,12 @@ public class PlayerLoggerListener implements Listener{
 					} else {
 						lowercase = false;
 					}
+					if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 					filehandler.logPlace(playername, worldname, blockname, x, y, z, staff, lowercase);
-				}}}
+				}
+					if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+						playerlogger.addData(playername,"place", blockname, x, y, z, worldname);
+					}}}}
 
 
 	//BlockBreak
@@ -427,8 +489,13 @@ public class PlayerLoggerListener implements Listener{
 					} else {
 						lowercase = false;
 					}
+					if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 					filehandler.logBreak(playername, worldname, blockname, x, y, z, staff, lowercase);
-				}}else if (plugin.getConfig().getStringList("BlackList.Blocks").toString().contains("*")) {
+					}
+					if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+						playerlogger.addData(playername,"break", blockname, x, y, z, worldname);
+					}
+				}else if (plugin.getConfig().getStringList("BlackList.Blocks").toString().contains("*")) {
 					String blockname = event.getBlock().getType().toString();
 					blockname = blockname.replaceAll("_", " ");
 					if (player.hasPermission("PlayerLogger.staff") && plugin.getConfig().getBoolean("Log.SeparateFolderforStaff")) {
@@ -441,7 +508,11 @@ public class PlayerLoggerListener implements Listener{
 					} else {
 						lowercase = false;
 					}
+					if (plugin.getConfig().getBoolean("File.LogToFiles")) {
 					filehandler.logBreak(playername, worldname, blockname, x, y, z, staff, lowercase);
-				}}}
+				}
+					if (plugin.getConfig().getBoolean("MySQL.Enabled")) {
+						playerlogger.addData(playername,"break", blockname, x, y, z, worldname);
+					}}}}}
 
 }
