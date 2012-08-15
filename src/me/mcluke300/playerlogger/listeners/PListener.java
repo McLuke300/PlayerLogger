@@ -37,7 +37,7 @@ public class PListener implements Listener{
 
 
 	//Player Join
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerLoginEvent event) {
 		if(event.getResult() == PlayerLoginEvent.Result.ALLOWED) {
 			Player player = event.getPlayer();
@@ -62,7 +62,7 @@ public class PListener implements Listener{
 				}}}}
 	
 	//Player Quit
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		World world = player.getWorld();
@@ -85,7 +85,7 @@ public class PListener implements Listener{
 
 
 	//Player Chat
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerChat(final AsyncPlayerChatEvent event) {
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 
@@ -126,7 +126,7 @@ public class PListener implements Listener{
 		}, 1L);}
 
 	//Player Command
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerCmd(PlayerCommandPreprocessEvent event) {
 		Player player = event.getPlayer();
 		World world = player.getWorld();
@@ -140,7 +140,7 @@ public class PListener implements Listener{
 		double y = (int) Math.floor(player.getLocation().getY());
 		double z = (int) Math.floor(player.getLocation().getZ());
 		if (getConfig.PlayerCommands()) {
-			if (getConfig.BlackListCommands()) {
+			if (getConfig.BlackListCommands() || getConfig.BlackListCommandsMySQL()) {
 				for (String m : getConfig.CommandsToBlock()) {
 					m = m.toString().toLowerCase();
 					if (msg2[0].equalsIgnoreCase(m)) {
@@ -151,12 +151,14 @@ public class PListener implements Listener{
 					if (player.hasPermission("PlayerLogger.staff")) {
 						staff = true;
 					}
+					if (getConfig.BlackListCommands()) {
 					if (getConfig.logFilesEnabled()) {
 						filehandler.logCmd(playername, msg, worldname, x, y, z, staff);
-					}
+					}}
+					if (getConfig.BlackListCommandsMySQL()) {
 					if (getConfig.MySQLEnabled()) {
 						addData.add(playername,"command", msg, x, y, z, worldname, staff);
-					}}
+					}}}
 			}else {
 				if (player.hasPermission("PlayerLogger.staff")) {
 					staff = true;
@@ -170,7 +172,7 @@ public class PListener implements Listener{
 
 
 	//Player Deaths
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEntityDeath(EntityDeathEvent event){
 		Entity ent = event.getEntity();
 		if(ent instanceof Player){
@@ -196,7 +198,7 @@ public class PListener implements Listener{
 
 
 	//Player Enchant
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEnchant(EnchantItemEvent event){
 		Player player = (Player)event.getEnchanter();
 		String playername = player.getName();
@@ -219,7 +221,7 @@ public class PListener implements Listener{
 
 
 	//Player Bucket
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBucket(PlayerBucketEmptyEvent event){
 		Player player = event.getPlayer();
 		String playername = player.getName();
@@ -264,7 +266,7 @@ public class PListener implements Listener{
 
 
 	//Player Sign Change event
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onSign(SignChangeEvent event){
 		Player player = event.getPlayer();
 		String playername = player.getName();
@@ -316,7 +318,7 @@ public class PListener implements Listener{
 
 
 	//Console Logger
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerConsoleCommand(ServerCommandEvent event) {
 		String msg = event.getCommand();
 		if (getConfig.ConsoleCommands() && getConfig.logFilesEnabled()) {
@@ -328,7 +330,7 @@ public class PListener implements Listener{
 
 
 	//BlockPlace
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		String playername = player.getName();
@@ -365,7 +367,7 @@ public class PListener implements Listener{
 
 
 	//BlockBreak
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		String playername = player.getName();

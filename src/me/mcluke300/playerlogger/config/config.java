@@ -42,6 +42,7 @@ public class config {
 		String path10 = "BlackList.LogBlackListedBlocks";
 		String path11 = "BlackList.Blocks";
 		String path13 = "Commands.BlackListCommands";
+		String path24 = "Commands.BlackListCommandsForMySQL";
 		String path14 = "Commands.CommandsToBlock";
 		String path15 = "Log.SeparateFolderforStaff";
 		String path16 = "Log.PlayerNamestoLowerCase";
@@ -68,6 +69,7 @@ public class config {
 		playerlogger.plugin.getConfig().addDefault(path11, words);
 		playerlogger.plugin.getConfig().addDefault(path12, true);
 		playerlogger.plugin.getConfig().addDefault(path13, false);
+		playerlogger.plugin.getConfig().addDefault(path24, false);
 		playerlogger.plugin.getConfig().addDefault(path14, cmds);
 		playerlogger.plugin.getConfig().addDefault(path15, true);
 		playerlogger.plugin.getConfig().addDefault(path16, false);

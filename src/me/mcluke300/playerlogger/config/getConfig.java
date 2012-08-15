@@ -33,6 +33,7 @@ public class getConfig {
 	private static List<String> Blocks;
 	
 	private static boolean BlackListCommands;
+	private static boolean BlackListCommandsMySQL;
 	private static List<String> CommandsToBlock;
 	
 	private static boolean MySQLEnabled;
@@ -65,6 +66,7 @@ public class getConfig {
 		Blocks=playerlogger.plugin.getConfig().getStringList("BlackList.Blocks");
 		
 		BlackListCommands=playerlogger.plugin.getConfig().getBoolean("Commands.BlackListCommands");
+		BlackListCommandsMySQL=playerlogger.plugin.getConfig().getBoolean("Commands.BlackListCommandsForMySQL");
 		CommandsToBlock=playerlogger.plugin.getConfig().getStringList("Commands.CommandsToBlock");
 		
 		MySQLServer=playerlogger.plugin.getConfig().getString("MySQL.Server");
@@ -124,6 +126,9 @@ public class getConfig {
 	}
 	public static boolean BlackListCommands() {
 		return BlackListCommands;
+	}
+	public static boolean BlackListCommandsMySQL() {
+		return BlackListCommandsMySQL;
 	}
 	public static List<String> CommandsToBlock() {
 		return CommandsToBlock;

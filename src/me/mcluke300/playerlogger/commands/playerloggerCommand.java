@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import me.mcluke300.playerlogger.playerlogger;
+import me.mcluke300.playerlogger.config.getConfig;
 
 public class playerloggerCommand implements CommandExecutor{
 
@@ -25,8 +26,8 @@ public class playerloggerCommand implements CommandExecutor{
 
 				//Reload
 				if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("PlayerLogger.reload")) {
-					plugin.getServer().getPluginManager().disablePlugin(plugin);
-					plugin.getServer().getPluginManager().enablePlugin(plugin);
+					plugin.reloadConfig();
+					getConfig.getValues();
 					sender.sendMessage(ChatColor.GREEN+"PlayerLogger Config Reloaded");
 				}
 
