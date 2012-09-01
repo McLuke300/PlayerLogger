@@ -39,6 +39,7 @@ public class config {
 		String path12 = "Log.PlayerSignText";
 		String path7 = "Log.Pvp";
 		String path9 = "Log.ConsoleCommands";
+		String path25 = "Log.DateFormat";
 		String path10 = "BlackList.LogBlackListedBlocks";
 		String path11 = "BlackList.Blocks";
 		String path13 = "Commands.BlackListCommands";
@@ -65,6 +66,7 @@ public class config {
 		playerlogger.plugin.getConfig().addDefault(path7, true);
 		playerlogger.plugin.getConfig().addDefault(path8, true);
 		playerlogger.plugin.getConfig().addDefault(path9, true);
+		playerlogger.plugin.getConfig().addDefault(path25, "MM-dd-yyyy HH:mm:ss");
 		playerlogger.plugin.getConfig().addDefault(path10, true);
 		playerlogger.plugin.getConfig().addDefault(path11, words);
 		playerlogger.plugin.getConfig().addDefault(path12, true);

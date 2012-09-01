@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 
 import me.mcluke300.playerlogger.playerlogger;
 import me.mcluke300.playerlogger.config.getConfig;
+import me.mcluke300.playerlogger.mysql.mysql;
 
 public class playerloggerCommand implements CommandExecutor{
 
@@ -28,6 +29,7 @@ public class playerloggerCommand implements CommandExecutor{
 				if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("PlayerLogger.reload")) {
 					plugin.reloadConfig();
 					getConfig.getValues();
+					mysql.createDatabase();
 					sender.sendMessage(ChatColor.GREEN+"PlayerLogger Config Reloaded");
 				}
 

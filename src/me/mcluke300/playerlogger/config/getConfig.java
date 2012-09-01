@@ -28,6 +28,7 @@ public class getConfig {
 	private static boolean SeparateFolderforStaff;
 	private static boolean PlayerNamestoLowerCase;
 	private static boolean LogOnlyStaff;
+	private static String LogDateFormat;
 	
 	private static boolean LogBlackListedBlocks;
 	private static List<String> Blocks;
@@ -61,6 +62,7 @@ public class getConfig {
 		SeparateFolderforStaff=playerlogger.plugin.getConfig().getBoolean("Log.SeparateFolderforStaff");
 		PlayerNamestoLowerCase=playerlogger.plugin.getConfig().getBoolean("Log.PlayerNamestoLowerCase");
 		LogOnlyStaff=playerlogger.plugin.getConfig().getBoolean("Log.LogOnlyStaff");
+		LogDateFormat=playerlogger.plugin.getConfig().getString("Log.DateFormat");
 		
 		LogBlackListedBlocks=playerlogger.plugin.getConfig().getBoolean("BlackList.LogBlackListedBlocks");
 		Blocks=playerlogger.plugin.getConfig().getStringList("BlackList.Blocks");
@@ -117,6 +119,9 @@ public class getConfig {
 	}
 	public static boolean LogOnlyStaff() {
 		return LogOnlyStaff;
+	}
+	public static String LogDateFormat() {
+		return LogDateFormat;
 	}
 	public static boolean LogBlackListedBlocks() {
 		return LogBlackListedBlocks;

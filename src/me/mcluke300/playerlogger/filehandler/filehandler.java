@@ -15,7 +15,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 public class filehandler {
-	static final String DATE_FORMAT_NOW = "MM-dd-yyyy HH:mm:ss";
+	static String dateformat = getConfig.LogDateFormat();
+	static final String DATE_FORMAT_NOW = dateformat;
 	playerlogger plugin;
 
 	public filehandler(playerlogger instance) {
@@ -43,7 +44,7 @@ public class filehandler {
 			FileWriter outfile = new FileWriter(user, true);
 			PrintWriter out = new PrintWriter(outfile);
 			user.createNewFile();			
-			out.println("["+worldname+"]"+playername + " joined: " +ip+" " + "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
+			out.println("["+worldname+"]"+playername + " Joined: " +ip+" " + "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -72,7 +73,7 @@ public class filehandler {
 			PrintWriter out = new PrintWriter(outfile);
 			user.createNewFile();
 
-			out.println("["+worldname+"]"+playername + " quit: "+getTimestamp()+")");
+			out.println("["+worldname+"]"+playername + " Quit: "+ "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -100,7 +101,7 @@ public class filehandler {
 			PrintWriter out = new PrintWriter(outfile);
 			user.createNewFile();
 
-			out.println("["+worldname+"]"+playername + " said: " + msg + " " + " " + "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
+			out.println("["+worldname+"]"+playername + " Said: " + msg + " " + " " + "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
 			out.close();
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -128,7 +129,7 @@ public class filehandler {
 			PrintWriter out = new PrintWriter(outfile);
 			user.createNewFile();
 
-			out.println("["+worldname+"]"+playername + " Died. " + " " + "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
+			out.println("["+worldname+"]"+playername + " Died: " +  "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
 			out.close();
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -138,7 +139,7 @@ public class filehandler {
 	//Enchantments
 	public static void logEnchant(String playername,
 			Map<Enchantment, Integer> ench, ItemStack item, int cost,
-			String worldname, Boolean staff) {
+			String worldname, double x, double y, double z, Boolean staff) {
 		Boolean lowercase = getLowercase();
 		if (lowercase) {
 			playername = playername.toLowerCase();
@@ -156,7 +157,7 @@ public class filehandler {
 			PrintWriter out = new PrintWriter(outfile);
 			user.createNewFile();
 
-			out.println("["+worldname+"]"+getTimestamp()+" ["+playername+"]" +""+item+" "+ench+" Xp Cost:"+cost);
+			out.println("["+worldname+"]"+getTimestamp()+" ["+playername+"]" +""+item+" "+ench+" Xp Cost:"+cost+ " (" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
 			out.close();
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -226,6 +227,7 @@ public class filehandler {
 		Boolean lowercase = getLowercase();
 		if (lowercase) {
 			damager = damager.toLowerCase();
+			player = player.toLowerCase();
 		}
 		File user;
 		if (staff == true && getStaff()) {
@@ -246,6 +248,32 @@ public class filehandler {
 			e.printStackTrace();
 		}}
 
+	//KilledBy
+	public static void logKilledBy(String player, String damager, double x,
+			double y, double z, String worldname, Boolean staff2) {
+		Boolean lowercase = getLowercase();
+		if (lowercase) {
+			damager = damager.toLowerCase();
+			player = player.toLowerCase();
+		}
+		File user;
+		if (staff2 == true && getStaff()) {
+			user = new File("plugins/PlayerLogger/Staff/" + player + ".properties");
+		} else if (!getOnlyStaff()){
+			user = new File("plugins/PlayerLogger/Users/" + player + ".properties");	
+		} else {
+			return;
+		}
+		try {
+			FileWriter outfile = new FileWriter(user, true);
+			PrintWriter out = new PrintWriter(outfile);
+			user.createNewFile();
+
+			out.println("["+worldname+"]"+player+" Killed by "+damager+ " (" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
+			out.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}}
 
 	//Console
 	public static void logConsole(String msg) {
@@ -335,7 +363,7 @@ public class filehandler {
 			PrintWriter out = new PrintWriter(outfile);
 			user.createNewFile();
 
-			out.println("["+worldname+"]"+playername + " command: " + msg + " " + " " + "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
+			out.println("["+worldname+"]"+playername + " Command: " + msg + " " + " " + "(" + (int)x + " " + (int)y + " " + (int)z + ") ("+getTimestamp()+")");
 			out.close();
 		}catch (IOException e) {
 			e.printStackTrace();

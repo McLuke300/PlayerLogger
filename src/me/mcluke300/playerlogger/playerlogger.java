@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.mcluke300.playerlogger.commands.playerloggerCommand;
 import me.mcluke300.playerlogger.config.*;
 import me.mcluke300.playerlogger.listeners.PListener;
+import me.mcluke300.playerlogger.mysql.mysql;
 
 public class playerlogger extends JavaPlugin {
 
@@ -37,6 +38,7 @@ public class playerlogger extends JavaPlugin {
 		
 		config.LoadConfiguration();
 		getConfig.getValues();
+		mysql.createDatabase();
 		
 		//Registering Listeners
 		Bukkit.getServer().getPluginManager().registerEvents(new PListener(this), this);

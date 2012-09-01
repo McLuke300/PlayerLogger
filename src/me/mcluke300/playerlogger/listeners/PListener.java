@@ -146,20 +146,20 @@ public class PListener implements Listener{
 					if (msg2[0].equalsIgnoreCase(m)) {
 						log = true;
 						break;
-					}}
-				if (!log) {
+					}}}
+				if (log) {
 					if (player.hasPermission("PlayerLogger.staff")) {
 						staff = true;
 					}
-					if (getConfig.BlackListCommands()) {
+					if (!getConfig.BlackListCommands()) {
 					if (getConfig.logFilesEnabled()) {
 						filehandler.logCmd(playername, msg, worldname, x, y, z, staff);
 					}}
-					if (getConfig.BlackListCommandsMySQL()) {
+					if (!getConfig.BlackListCommandsMySQL()) {
 					if (getConfig.MySQLEnabled()) {
 						addData.add(playername,"command", msg, x, y, z, worldname, staff);
-					}}}
-			}else {
+					}}
+					}else {
 				if (player.hasPermission("PlayerLogger.staff")) {
 					staff = true;
 				}
@@ -208,15 +208,18 @@ public class PListener implements Listener{
 		Map<Enchantment, Integer> ench = event.getEnchantsToAdd();
 		ItemStack item = event.getItem();
 		int cost = event.getExpLevelCost();
+		double x = (int) Math.floor(player.getLocation().getX());
+		double y = (int) Math.floor(player.getLocation().getY());
+		double z = (int) Math.floor(player.getLocation().getZ());
 		if (getConfig.PlayerEnchants()) {
 			if (player.hasPermission("PlayerLogger.staff")) {
 				staff = true;
 			}
 			if (getConfig.logFilesEnabled()) {
-				filehandler.logEnchant(playername, ench, item, cost, worldname, staff);
+				filehandler.logEnchant(playername, ench, item, cost, worldname, x, y, z, staff);
 			}
 			if (getConfig.MySQLEnabled()) {
-				addData.add(playername,"enchant", item+" "+ench+" Xp Cost:"+cost, 0, 0, 0, worldname, staff);
+				addData.add(playername,"enchant", item+" "+ench+" Xp Cost:"+cost, x, y, z, worldname, staff);
 			}}}
 
 
@@ -302,18 +305,28 @@ public class PListener implements Listener{
 					String player = ((Player) ply).getName();
 					String damager = ((Player) dmgr).getName();
 					Boolean staff = false;				
-					double x = Math.floor(ply.getLocation().getX());
-					double y = Math.floor(ply.getLocation().getY());
-					double z = Math.floor(ply.getLocation().getZ());
+					Boolean staff2 = false;				
+					double x = Math.floor(dmgr.getLocation().getX());
+					double y = Math.floor(dmgr.getLocation().getY());
+					double z = Math.floor(dmgr.getLocation().getZ());
+					double x2 = Math.floor(ply.getLocation().getX());
+					double y2 = Math.floor(ply.getLocation().getY());
+					double z2 = Math.floor(ply.getLocation().getZ());
+					
 					if (getConfig.PlayerPvp()) {
 						if (((Player) dmgr).hasPermission("PlayerLogger.staff")) {
 							staff = true;
 						}
+						if (((Player) ply).hasPermission("PlayerLogger.staff")) {
+							staff2 = true;
+						}
 						if (getConfig.logFilesEnabled()) {
 							filehandler.logKill(player, damager, x, y, z, worldname, staff);
+							filehandler.logKilledBy(player, damager, x2, y2, z2, worldname, staff2);
 						}
 						if (getConfig.MySQLEnabled()) {
-							addData.add(damager,"kill", "Killed "+player, x, y, z, worldname, staff);
+							addData.add(damager,"kill",player, x, y, z, worldname, staff);
+							addData.add(player,"killedby",damager, x, y, z, worldname, staff2);
 						}}}}}}
 
 

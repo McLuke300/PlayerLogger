@@ -10,7 +10,7 @@ import me.mcluke300.playerlogger.config.*;
 public class mysql {
 
 	//Creating MySQL database
-	public void createDatabase() {
+	public static void  createDatabase() {
 		if (getConfig.MySQLEnabled()) {
 			Connection connection = null;
 			Statement st = null;
