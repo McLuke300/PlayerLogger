@@ -60,7 +60,7 @@ public class PListener implements Listener{
 				if (getConfig.MySQLEnabled()) {
 					addData.add(playername,"join", ip, x, y, z, worldname, staff);
 				}}}}
-	
+
 	//Player Quit
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
@@ -98,29 +98,31 @@ public class PListener implements Listener{
 				final double x = (int) Math.floor(player.getLocation().getX());
 				final double y = (int) Math.floor(player.getLocation().getY());
 				final double z = (int) Math.floor(player.getLocation().getZ());
-				if (getConfig.logFilesEnabled()) {
-					plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin,new Runnable(){
-						
-					public void run() {
-						Boolean staff = false;
-						if (player.hasPermission("PlayerLogger.staff")) {
-							staff = true;
-						}
-						filehandler.logChat(playername, msg, worldname, x, y, z, staff);
-					}}, 1L);
-				}
-				if (getConfig.MySQLEnabled()) {
-				
-					plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin,new Runnable(){
-						
-						public void run() {
-							Boolean staff = false;
-							if (player.hasPermission("PlayerLogger.staff")) {
-								staff = true;
-							}
-							addData.add(playername,"chat", msg, x, y, z, worldname, staff);
-						}}, 1L);
-					
+				if(getConfig.PlayerChat()) {
+					if (getConfig.logFilesEnabled()) {
+						plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin,new Runnable(){
+
+							public void run() {
+								Boolean staff = false;
+								if (player.hasPermission("PlayerLogger.staff")) {
+									staff = true;
+								}
+								filehandler.logChat(playername, msg, worldname, x, y, z, staff);
+							}}, 1L);
+					}
+					if (getConfig.MySQLEnabled()) {
+
+						plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin,new Runnable(){
+
+							public void run() {
+								Boolean staff = false;
+								if (player.hasPermission("PlayerLogger.staff")) {
+									staff = true;
+								}
+								addData.add(playername,"chat", msg, x, y, z, worldname, staff);
+							}}, 1L);
+
+					}
 				}
 			}
 		}, 1L);}
@@ -147,19 +149,19 @@ public class PListener implements Listener{
 						log = true;
 						break;
 					}}}
-				if (log) {
-					if (player.hasPermission("PlayerLogger.staff")) {
-						staff = true;
-					}
-					if (!getConfig.BlackListCommands()) {
+			if (log) {
+				if (player.hasPermission("PlayerLogger.staff")) {
+					staff = true;
+				}
+				if (!getConfig.BlackListCommands()) {
 					if (getConfig.logFilesEnabled()) {
 						filehandler.logCmd(playername, msg, worldname, x, y, z, staff);
 					}}
-					if (!getConfig.BlackListCommandsMySQL()) {
+				if (!getConfig.BlackListCommandsMySQL()) {
 					if (getConfig.MySQLEnabled()) {
 						addData.add(playername,"command", msg, x, y, z, worldname, staff);
 					}}
-					}else {
+			}else {
 				if (player.hasPermission("PlayerLogger.staff")) {
 					staff = true;
 				}
@@ -312,7 +314,7 @@ public class PListener implements Listener{
 					double x2 = Math.floor(ply.getLocation().getX());
 					double y2 = Math.floor(ply.getLocation().getY());
 					double z2 = Math.floor(ply.getLocation().getZ());
-					
+
 					if (getConfig.PlayerPvp()) {
 						if (((Player) dmgr).hasPermission("PlayerLogger.staff")) {
 							staff = true;
